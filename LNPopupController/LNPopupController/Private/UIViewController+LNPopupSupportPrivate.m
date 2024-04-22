@@ -1082,8 +1082,7 @@ void _LNPopupSupportSetPopupInsetsForViewController(UIViewController* controller
 	
 	if(self._ignoringLayoutDuringTransition == NO)
 	{
-		CGFloat bottomSafeArea = self.view.superview.safeAreaInsets.bottom;
-		self._ln_bottomBarExtension_nocreate.frame = CGRectMake(0, self.view.bounds.size.height - bottomSafeArea, self.view.bounds.size.width, bottomSafeArea);
+		self._ln_bottomBarExtension_nocreate.frame = CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 0);
 	}
 }
 
@@ -1168,8 +1167,6 @@ void _LNPopupSupportSetPopupInsetsForViewController(UIViewController* controller
 	
 	[self _setIgnoringLayoutDuringTransition:YES];
 	
-	CGFloat bottomSafeArea = self.view.superview.safeAreaInsets.bottom;
-	
 	[self _layoutPopupBarOrderForTransition];
 	
 	CGRect backgroundViewFrame = self._ln_popupController_nocreate.popupBar.backgroundView.frame;
@@ -1177,14 +1174,14 @@ void _LNPopupSupportSetPopupInsetsForViewController(UIViewController* controller
 	self._ln_bottomBarExtension_nocreate.alpha = 1.0;
 	
 	void (^animations)(id<UIViewControllerTransitionCoordinatorContext>) = ^ (id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
-		self._ln_bottomBarExtension_nocreate.frame = CGRectMake(0, self.view.bounds.size.height - bottomSafeArea, self.view.bounds.size.width, self._ln_bottomBarExtension_nocreate.frame.size.height);
+		self._ln_bottomBarExtension_nocreate.frame = CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, self._ln_bottomBarExtension_nocreate.frame.size.height);
 		self._ln_popupController_nocreate.popupBar.bottomShadowView.alpha = 0.0;
 		
 		[self __repositionPopupBarToClosed_hack];
 		if(isFloating)
 		{
 			[self._ln_popupController_nocreate.popupBar layoutIfNeeded];
-			self._ln_popupController_nocreate.popupBar.backgroundView.frame = CGRectOffset(backgroundViewFrame, (isRTL ? 1 : -1) * CGRectGetWidth(backgroundViewFrame), -CGRectGetHeight(frame) + bottomSafeArea);
+			self._ln_popupController_nocreate.popupBar.backgroundView.frame = CGRectOffset(backgroundViewFrame, (isRTL ? 1 : -1) * CGRectGetWidth(backgroundViewFrame), -CGRectGetHeight(frame));
 			self._ln_popupController_nocreate.popupBar.backgroundView.alpha = 1.0;
 			if(t == 1)
 			{
@@ -1205,8 +1202,8 @@ void _LNPopupSupportSetPopupInsetsForViewController(UIViewController* controller
 		}
 		[self._ln_popupController_nocreate.popupBar setWantsBackgroundCutout:YES allowImplicitAnimations:YES];
 		
-		self._ln_bottomBarExtension_nocreate.frame = CGRectMake(0, self.view.bounds.size.height - bottomSafeArea, self.view.bounds.size.width, bottomSafeArea);
-		
+		self._ln_bottomBarExtension_nocreate.frame = CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 0);
+
 		[self _setIgnoringLayoutDuringTransition:NO];
 		[self._ln_popupController_nocreate _setContentToState:self._ln_popupController_nocreate.popupControllerInternalState];
 		
@@ -1285,7 +1282,7 @@ void _LNPopupSupportSetPopupInsetsForViewController(UIViewController* controller
 	CGRect backgroundViewFrame = self._ln_popupController_nocreate.popupBar.backgroundView.frame;
 	if(isFloating && wasHidden == YES)
 	{
-		self._ln_popupController_nocreate.popupBar.backgroundView.frame = CGRectOffset(backgroundViewFrame, (isRTL ? 1 : -1) * CGRectGetWidth(backgroundViewFrame), -CGRectGetHeight(self.tabBar.frame) + self.view.superview.safeAreaInsets.bottom);
+		self._ln_popupController_nocreate.popupBar.backgroundView.frame = CGRectOffset(backgroundViewFrame, (isRTL ? 1 : -1) * CGRectGetWidth(backgroundViewFrame), -CGRectGetHeight(self.tabBar.frame));
 	}
 	__block CGRect frame = self.tabBar.frame;
 	
@@ -1549,8 +1546,7 @@ void _LNPopupSupportSetPopupInsetsForViewController(UIViewController* controller
 	
 	if(self._ignoringLayoutDuringTransition == NO)
 	{
-		CGFloat bottomSafeArea = self.view.superview.safeAreaInsets.bottom;
-		self._ln_bottomBarExtension_nocreate.frame = CGRectMake(0, self.view.bounds.size.height - bottomSafeArea, self.view.bounds.size.width, bottomSafeArea);
+		self._ln_bottomBarExtension_nocreate.frame = CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 0);
 	}
 }
 
@@ -1623,7 +1619,6 @@ void _LNPopupSupportSetPopupInsetsForViewController(UIViewController* controller
 	[self._ln_popupController_nocreate _setContentToState:self._ln_popupController_nocreate.popupControllerInternalState];
 	
 	__block CGRect frame = self.toolbar.frame;
-	frame.size.height += self.view.superview.safeAreaInsets.bottom;
 	if(edge != UIRectEdgeBottom)
 	{
 		frame.origin.x = (edge == UIRectEdgeRight ? -1 : 1) * self.view.bounds.size.width;
@@ -1670,11 +1665,11 @@ void _LNPopupSupportSetPopupInsetsForViewController(UIViewController* controller
 		else if(hidden == YES)
 		{
 			initialBackgroundViewFrame = backgroundViewFrame;
-			targetBackgroundViewFrame = CGRectOffset(backgroundViewFrame, (edge == UIRectEdgeRight ? 1 : -1) * CGRectGetWidth(backgroundViewFrame), -CGRectGetHeight(frame) + self.view.superview.safeAreaInsets.bottom);
+			targetBackgroundViewFrame = CGRectOffset(backgroundViewFrame, (edge == UIRectEdgeRight ? 1 : -1) * CGRectGetWidth(backgroundViewFrame), -CGRectGetHeight(frame));
 		}
 		else
 		{
-			initialBackgroundViewFrame = CGRectOffset(backgroundViewFrame, (edge == UIRectEdgeRight ? 1 : -1) * CGRectGetWidth(backgroundViewFrame), -CGRectGetHeight(frame) + self.view.superview.safeAreaInsets.bottom);
+			initialBackgroundViewFrame = CGRectOffset(backgroundViewFrame, (edge == UIRectEdgeRight ? 1 : -1) * CGRectGetWidth(backgroundViewFrame), -CGRectGetHeight(frame));
 			targetBackgroundViewFrame = backgroundViewFrame;
 		}
 		
@@ -1685,8 +1680,6 @@ void _LNPopupSupportSetPopupInsetsForViewController(UIViewController* controller
 		}
 		
 		self._ln_popupController_nocreate.popupBar.bottomShadowView.alpha = hidden == NO ? 0.0 : 1.0;
-		
-		CGFloat safeArea = self.view.superview.safeAreaInsets.bottom;
 		
 		[self _layoutPopupBarOrderForTransition];
 		
@@ -1702,7 +1695,7 @@ void _LNPopupSupportSetPopupInsetsForViewController(UIViewController* controller
 			CGRect frame;
 			if(hidden)
 			{
-				self._ln_bottomBarExtension_nocreate.frame = CGRectMake(0, self.view.bounds.size.height - safeArea, self.view.bounds.size.width, self._ln_bottomBarExtension_nocreate.frame.size.height);
+				self._ln_bottomBarExtension_nocreate.frame = CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, self._ln_bottomBarExtension_nocreate.frame.size.height);
 				
 				self._ln_popupController_nocreate.popupBar.bottomShadowView.alpha = 0.0;
 				
@@ -1714,7 +1707,6 @@ void _LNPopupSupportSetPopupInsetsForViewController(UIViewController* controller
 			else
 			{
 				frame = self.toolbar.frame;
-				frame.size.height += self.view.superview.safeAreaInsets.bottom;
 				if(edge != UIRectEdgeBottom)
 				{
 					frame.origin.x = (edge == UIRectEdgeRight ? -1 : 1) * self.view.bounds.size.width;
@@ -1740,7 +1732,7 @@ void _LNPopupSupportSetPopupInsetsForViewController(UIViewController* controller
 			
 			if(hidden)
 			{
-				self._ln_bottomBarExtension_nocreate.frame = CGRectMake(0, self.view.bounds.size.height - safeArea, (edge == UIRectEdgeRight ? -1 : 1) * self.view.bounds.size.width, safeArea);
+				self._ln_bottomBarExtension_nocreate.frame = CGRectMake(0, self.view.bounds.size.height, (edge == UIRectEdgeRight ? -1 : 1) * self.view.bounds.size.width, 0);
 			}
 			else if(finished)
 			{
