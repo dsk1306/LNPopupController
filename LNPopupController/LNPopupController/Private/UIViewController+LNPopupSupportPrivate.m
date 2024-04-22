@@ -1421,7 +1421,7 @@ void _LNPopupSupportSetPopupInsetsForViewController(UIViewController* controller
 
 - (nullable UIView *)bottomDockingViewForPopupBar
 {
-	return self.toolbar;
+    return nil;
 }
 
 - (CGRect)defaultFrameForBottomDockingView
