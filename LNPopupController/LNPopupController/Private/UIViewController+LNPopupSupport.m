@@ -361,7 +361,7 @@ static NSString* const ePCIEBase64 = @"X2V4aXN0aW5nUHJlc2VudGF0aW9uQ29udHJvbGxlc
 
 - (nullable UIView *)bottomDockingViewForPopup_nocreateOrDeveloper
 {
-	return self.bottomDockingViewForPopupBar ?: self._ln_bottomBarSupport_nocreate;
+    return self.bottomDockingViewForPopupBar;
 }
 
 - (nonnull UIView *)bottomDockingViewForPopup_internalOrDeveloper
