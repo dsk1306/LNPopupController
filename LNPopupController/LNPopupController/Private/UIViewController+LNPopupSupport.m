@@ -386,14 +386,7 @@ static NSString* const ePCIEBase64 = @"X2V4aXN0aW5nUHJlc2VudGF0aW9uQ29udHJvbGxlc
 
 - (CGRect)defaultFrameForBottomDockingView_internal
 {
-	CGFloat safeAreaAddition = self.view.safeAreaInsets.bottom - _LNPopupSafeAreas(self).bottom;
-	
-	if(self.presentingViewController != nil && [NSStringFromClass(self.nonMemoryLeakingPresentationController.class) containsString:@"Preview"])
-	{
-		safeAreaAddition = 0;
-	}
-	
-	return CGRectMake(0, self.view.bounds.size.height - safeAreaAddition, self.view.bounds.size.width, safeAreaAddition);
+	return CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 0);
 }
 
 - (CGRect)defaultFrameForBottomDockingView_internalOrDeveloper
